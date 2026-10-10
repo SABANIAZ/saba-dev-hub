@@ -132,14 +132,27 @@ def home():
                 padding: 30px;
             }
             .container { max-width: 900px; margin: 0 auto; }
-            header { text-align: center; margin-bottom: 25px; position: relative; }
+            header {
+                display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between;
+                gap: 12px; margin-bottom: 25px; text-align: left;
+            }
+            .brand { flex: 1 1 280px; }
+            .header-nav {
+                display: flex; flex-wrap: wrap; align-items: center; gap: 12px;
+                justify-content: flex-end; flex: 1 1 300px;
+            }
             .admin-link {
-                position: absolute; top: 0; right: 0;
                 background: #21262d; color: var(--accent-blue);
-                border: 1px solid var(--border-color); padding: 6px 12px;
+                border: 1px solid var(--border-color); padding: 8px 14px;
                 border-radius: 6px; text-decoration: none; font-size: 0.85em;
+                white-space: nowrap;
             }
             .admin-link:hover { background: #30363d; }
+            @media (max-width: 620px) {
+                header { justify-content: center; text-align: center; }
+                .brand, .header-nav { flex-basis: 100%; }
+                .header-nav { justify-content: center; }
+            }
             h1 { color: var(--accent-blue); font-size: 2.5em; margin-bottom: 10px; }
             .tagline { color: #8b949e; font-size: 1.1em; }
             .controls-container { display: flex; flex-direction: column; gap: 15px; margin-bottom: 35px; align-items: center; }
@@ -201,9 +214,16 @@ def home():
     <body>
         <div class="container">
             <header>
-                <a href="/admin" class="admin-link">⚙️ Admin Panel</a>
-                <h1>🐍 Saba Dev's Python Hub</h1>
-                <p class="tagline">Your ultimate lifetime destination for Python Cheat Sheets, Code Snippets, and Developer Resources.</p>
+                <div class="brand">
+                    <h1>🐍 Saba Dev's Python Hub</h1>
+                    <p class="tagline">Your ultimate lifetime destination for Python Cheat Sheets, Code Snippets, and Developer Resources.</p>
+                </div>
+                <nav class="header-nav" aria-label="Main navigation">
+                    <a href="/contact" class="admin-link">Contact Us</a>
+                    <a href="/about" class="admin-link">About Us</a>
+                    <a href="/privacy" class="admin-link">Privacy Policy</a>
+                    <a href="/admin" class="admin-link">⚙️ Admin Panel</a>
+                </nav>
             </header>
 
             <div class="controls-container">

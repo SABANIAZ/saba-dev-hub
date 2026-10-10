@@ -4,6 +4,28 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Saba Dev's Python Hub</title>
+    <style>
+        .site-header {
+            display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between;
+            gap: 12px; text-align: left;
+        }
+        .site-brand { flex: 1 1 280px; }
+        .site-nav {
+            display: flex; flex-wrap: wrap; align-items: center; justify-content: flex-end;
+            gap: 12px; flex: 1 1 300px;
+        }
+        .site-nav a {
+            display: inline-flex; align-items: center; justify-content: center;
+            min-height: 40px; padding: 8px 14px; border: 1px solid #334155;
+            border-radius: 6px; color: #a5f3fc; text-decoration: none; white-space: nowrap;
+        }
+        .site-nav a:hover { background: #1e293b; }
+        @media (max-width: 640px) {
+            .site-header { justify-content: center; text-align: center; }
+            .site-brand, .site-nav { flex-basis: 100%; }
+            .site-nav { justify-content: center; }
+        }
+    </style>
     
     <!-- Pinterest Domain Verification Tag -->
     <meta name="p:domain_verify" content="1f51b8df05e417441b7992630b2086d7"/>
@@ -13,9 +35,17 @@
 </head>
 <body class="bg-slate-950 text-slate-100 min-h-screen">
     <div class="container mx-auto px-4 py-8">
-        <header class="text-center mb-10">
-            <h1 class="text-4xl font-bold text-cyan-400 mb-2">Saba Dev's Python Hub</h1>
-            <p class="text-slate-400">Your ultimate lifetime destination for Python Cheat Sheets, Code Snippets, and Developer Resources.</p>
+        <header class="site-header mb-10">
+            <div class="site-brand">
+                <h1 class="text-4xl font-bold text-cyan-400 mb-2">Saba Dev's Python Hub</h1>
+                <p class="text-slate-400">Your ultimate lifetime destination for Python Cheat Sheets, Code Snippets, and Developer Resources.</p>
+            </div>
+            <nav class="site-nav" aria-label="Main navigation">
+                <a href="/contact">Contact Us</a>
+                <a href="/about">About Us</a>
+                <a href="/privacy">Privacy Policy</a>
+                <a href="/admin">Admin Panel</a>
+            </nav>
         </header>
 
         <!-- Main Content Area -->
