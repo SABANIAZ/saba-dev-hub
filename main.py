@@ -2,6 +2,7 @@ import sqlite3
 from flask import (
     Flask,
     redirect,
+    render_template,
     render_template_string,
     request,
     session,
@@ -188,6 +189,13 @@ def home():
                 border-radius: 6px; text-decoration: none; font-size: 0.9em; font-weight: bold; margin-top: 15px;
             }
             .download-btn:hover { background: #986ee2; }
+            .site-footer {
+                border-top: 1px solid var(--border-color); margin-top: 45px;
+                padding: 20px 0; display: flex; justify-content: center;
+                flex-wrap: wrap; gap: 22px; font-size: 0.9em;
+            }
+            .site-footer a { color: #8b949e; text-decoration: none; }
+            .site-footer a:hover { color: var(--accent-blue); }
         </style>
     </head>
     <body>
@@ -236,6 +244,12 @@ def home():
             </div>
         </div>
 
+        <footer class="site-footer" aria-label="Footer navigation">
+            <a href="/about">About Us</a>
+            <a href="/contact">Contact</a>
+            <a href="/privacy">Privacy Policy</a>
+        </footer>
+
         <script>
             let currentCategory = 'all';
             function filterCategory(category, btn) {
@@ -278,6 +292,16 @@ def home():
       resources=pro_resources,
       categories=categories,
   )
+
+
+@app.route("/about")
+def about():
+    return render_template("about.html")
+
+
+@app.route("/privacy")
+def privacy():
+    return render_template("privacy.html")
 
 
 # --- LOGIN ROUTE ---
