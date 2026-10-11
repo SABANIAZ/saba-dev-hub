@@ -95,6 +95,8 @@ pro_resources = [
 
 
 # --- HOME ROUTE ---
+@app.route("/home")
+@app.route("/home/")
 @app.route("/")
 def home():
     conn = sqlite3.connect("database.db")

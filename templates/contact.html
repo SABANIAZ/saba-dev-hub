@@ -1,20 +1,50 @@
 {% extends "base.html" %}
+{% block title %}Contact Us | Saba Dev's Python Hub{% endblock %}
 {% block content %}
 <style>
+    .contact-page {
+        max-width: 1000px;
+        margin: 0 auto;
+        padding: 12px 0 30px;
+        color: #c9d1d9;
+    }
+    .breadcrumb {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin: 0 0 28px;
+        color: #8b949e;
+        font-size: 0.92em;
+    }
+    .breadcrumb a, .back-home { color: #58a6ff; text-decoration: none; }
+    .breadcrumb a:hover, .back-home:hover { text-decoration: underline; }
+    .page-heading { margin-bottom: 24px; }
+    .page-heading .eyebrow {
+        margin: 0 0 8px;
+        color: #7ee787;
+        font-size: 0.8em;
+        font-weight: 700;
+        text-transform: uppercase;
+    }
+    .page-heading h1 {
+        margin: 0 0 8px;
+        color: #f0f6fc;
+        font-size: clamp(1.9rem, 5vw, 2.5rem);
+        line-height: 1.2;
+    }
+    .page-heading p:last-child { max-width: 640px; margin: 0; color: #8b949e; }
     .contact-wrapper {
         display: grid;
-        grid-template-columns: 1fr 340px;
-        gap: 30px;
-        max-width: 1000px;
-        margin: 40px auto;
-        padding: 0 15px;
+        grid-template-columns: minmax(0, 1fr) 320px;
+        gap: 24px;
     }
     .contact-card {
         background: #161b22;
         border: 1px solid #30363d;
-        border-radius: 12px;
+        border-radius: 8px;
         padding: 30px;
         box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        min-width: 0;
     }
     .contact-card h2 {
         color: #58a6ff;
@@ -44,11 +74,13 @@
         color: #f85149;
     }
     .form-control {
+        display: block;
         width: 100%;
+        min-height: 46px;
         padding: 12px 14px;
         background: #0d1117;
         border: 1px solid #30363d;
-        border-radius: 8px;
+        border-radius: 5px;
         color: #f0f6fc;
         font-size: 0.95em;
         box-sizing: border-box;
@@ -59,16 +91,17 @@
         border-color: #58a6ff;
     }
     textarea.form-control {
-        height: 120px;
+        min-height: 145px;
         resize: vertical;
         font-family: inherit;
     }
+    .form-control::placeholder { color: #6e7681; }
     .submit-btn {
         background: #238636;
         color: white;
         border: none;
         padding: 12px 24px;
-        border-radius: 8px;
+        border-radius: 5px;
         font-weight: bold;
         font-size: 1em;
         cursor: pointer;
@@ -77,10 +110,23 @@
     .submit-btn:hover {
         background: #2ea043;
     }
+    .submit-btn:focus-visible, .back-home:focus-visible, .info-email:focus-visible {
+        outline: 2px solid #58a6ff;
+        outline-offset: 3px;
+    }
+    .privacy-note { margin: -3px 0 18px; color: #8b949e; font-size: 0.82em; }
+    .form-success {
+        background: rgba(35, 134, 54, 0.14);
+        color: #7ee787;
+        border: 1px solid #238636;
+        padding: 12px;
+        border-radius: 5px;
+        margin-bottom: 20px;
+    }
     .info-sidebar {
         background: #161b22;
         border: 1px solid #30363d;
-        border-radius: 12px;
+        border-radius: 8px;
         padding: 25px;
         display: flex;
         flex-direction: column;
@@ -89,7 +135,7 @@
     .info-banner {
         background: linear-gradient(135deg, #1f2937, #111827);
         border: 1px solid #374151;
-        border-radius: 10px;
+        border-radius: 6px;
         padding: 25px 15px;
         text-align: center;
         margin-bottom: 20px;
@@ -109,6 +155,8 @@
         font-size: 0.95em;
         margin: 10px 0;
     }
+    .info-email { color: #58a6ff; text-decoration: none; overflow-wrap: anywhere; }
+    .info-email:hover { text-decoration: underline; }
     .back-home {
         display: inline-block;
         margin-top: 15px;
@@ -116,14 +164,11 @@
         text-decoration: none;
         font-size: 0.9em;
     }
-    .back-home:hover {
-        text-decoration: underline;
-    }
-
     @media (max-width: 768px) {
         .contact-wrapper {
             grid-template-columns: 1fr;
         }
+        .info-sidebar { gap: 24px; }
         .form-grid {
             grid-template-columns: 1fr;
         }
@@ -131,37 +176,55 @@
             grid-column: span 1;
         }
     }
+    @media (max-width: 520px) {
+        .contact-page { padding-top: 4px; }
+        .breadcrumb { margin-bottom: 20px; }
+        .contact-card, .info-sidebar { padding: 22px 18px; }
+        .submit-btn { width: 100%; }
+    }
 </style>
 
-<div class="contact-wrapper">
+<div class="contact-page">
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="/">Home</a>
+        <span aria-hidden="true">/</span>
+        <span aria-current="page">Contact Us</span>
+    </nav>
+
+    <header class="page-heading">
+        <p class="eyebrow">We're here to help</p>
+        <h1>Contact Us</h1>
+        <p>Have a question about a Python snippet or tutorial? Send us a message and we'll do our best to help.</p>
+    </header>
+
+    <div class="contact-wrapper">
     <!-- Left Form Section -->
     <div class="contact-card">
         <h2>Send us a message</h2>
         {% if msg_sent %}
-            <div style="background: #238636; color: white; padding: 12px; border-radius: 8px; margin-bottom: 20px;">
-                Thank you! Your message has been sent successfully. ✅
-            </div>
+            <p class="form-success" role="status" aria-live="polite">Thank you! Your message has been submitted.</p>
         {% endif %}
-        <form method="POST">
+        <form method="POST" action="/contact">
             <div class="form-grid">
                 <div class="form-group">
-                    <label>Your Name <span>*</span></label>
-                    <input type="text" name="name" class="form-control" placeholder="👤 Name" required>
+                    <label for="contact-name">Your Name <span>*</span></label>
+                    <input id="contact-name" type="text" name="name" class="form-control" placeholder="Name" autocomplete="name" required>
                 </div>
                 <div class="form-group">
-                    <label>Your Email <span>*</span></label>
-                    <input type="email" name="email" class="form-control" placeholder="✉️ Email" required>
+                    <label for="contact-email">Your Email <span>*</span></label>
+                    <input id="contact-email" type="email" name="email" class="form-control" placeholder="you@example.com" autocomplete="email" required>
                 </div>
             </div>
             <div class="form-group full-width">
-                <label>Subject <span>*</span></label>
-                <input type="text" name="subject" class="form-control" placeholder="📄 Subject" required>
+                <label for="contact-subject">Subject <span>*</span></label>
+                <input id="contact-subject" type="text" name="subject" class="form-control" placeholder="What can we help with?" required>
             </div>
             <div class="form-group full-width">
-                <label>Your Message <span>*</span></label>
-                <textarea name="message" class="form-control" placeholder="✏️ Write message..." required></textarea>
+                <label for="contact-message">Your Message <span>*</span></label>
+                <textarea id="contact-message" name="message" class="form-control" placeholder="Write your message..." required></textarea>
             </div>
-            <button type="submit" class="submit-btn">Send Message 🚀</button>
+            <p class="privacy-note">Your email is included so we can respond to your inquiry.</p>
+            <button type="submit" class="submit-btn">Send Message</button>
         </form>
     </div>
 
@@ -175,10 +238,11 @@
             </div>
             <div class="info-details">
                 <p><strong>Developer:</strong> Saba Niaz</p>
-                <p><strong>Email:</strong> support@sabaniazps.pythonanywhere.com</p>
+                <p><strong>Email:</strong> <a class="info-email" href="mailto:support@sabaniazps.pythonanywhere.com">support@sabaniazps.pythonanywhere.com</a></p>
             </div>
         </div>
         <a href="/" class="back-home">← Back to Homepage</a>
+    </div>
     </div>
 </div>
 {% endblock %}

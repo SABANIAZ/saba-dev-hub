@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Saba Dev's Python Hub</title>
+    <title>{% block title %}Saba Dev's Python Hub{% endblock %}</title>
     <style>
         .site-header {
             display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between;
@@ -49,9 +49,13 @@
         </header>
 
         <!-- Main Content Area -->
-        <main class="max-w-4xl mx-auto bg-slate-900 border border-slate-800 rounded-xl p-6 shadow-xl">
-            <h2 class="text-2xl font-semibold mb-4 text-cyan-300">Welcome to My Hub</h2>
-            <p class="text-slate-300">Explore python tutorials, code snippets, and structured guides tailored for developers.</p>
+        <main class="max-w-5xl mx-auto">
+            {% block content %}
+            <section class="bg-slate-900 border border-slate-800 rounded-xl p-6 shadow-xl">
+                <h2 class="text-2xl font-semibold mb-4 text-cyan-300">Welcome to My Hub</h2>
+                <p class="text-slate-300">Explore python tutorials, code snippets, and structured guides tailored for developers.</p>
+            </section>
+            {% endblock %}
         </main>
     </div>
 </body>
