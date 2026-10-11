@@ -13,6 +13,269 @@ from flask import (
 app = Flask(__name__)
 app.secret_key = "saba_dev_super_secret_key"
 
+REFERENCE_SNIPPETS = [
+    (
+        "basics",
+        "Basics & Variables",
+        "Type Checks and Conversion",
+        '''value = "42"
+number = int(value)
+
+print(number, type(number))
+print(isinstance(number, int))''',
+        "Convert common values and check types with isinstance().",
+    ),
+    (
+        "operators",
+        "Operators",
+        "Arithmetic and Comparison Operators",
+        '''total = 17 // 5
+remainder = 17 % 5
+power = 2 ** 3
+
+is_valid = total == 3 and remainder > 0
+print(total, remainder, power, is_valid)''',
+        "Use arithmetic, comparison, and logical operators together.",
+    ),
+    (
+        "strings",
+        "Strings",
+        "String Slicing and Methods",
+        '''message = "  learn python  "
+clean = message.strip()
+
+print(clean.title())
+print(clean[0:5])
+print("-".join(clean.split()))''',
+        "Trim, transform, slice, and join text with built-in string methods.",
+    ),
+    (
+        "collections",
+        "Collections",
+        "Lists, Dictionaries, and Sets",
+        '''tasks = ["read", "practice"]
+tasks.append("build")
+
+profile = {"name": "Saba", "tasks": len(tasks)}
+labels = {"python", "beginner", "python"}
+
+print(profile.get("name", "Guest"), tasks[-1], sorted(labels))''',
+        "Choose lists for ordered items, dictionaries for key-value data, and sets for unique values.",
+    ),
+    (
+        "comprehensions",
+        "Comprehensions",
+        "List and Dictionary Comprehensions",
+        '''numbers = range(1, 8)
+squares = [number ** 2 for number in numbers if number % 2 == 0]
+lookup = {number: number ** 2 for number in range(4)}
+
+print(squares)
+print(lookup)''',
+        "Build lists and dictionaries from iterables with optional conditions.",
+    ),
+    (
+        "functions",
+        "Functions & Scope",
+        "Flexible Function Arguments",
+        '''def make_message(name, *topics, excited=False, **details):
+    message = f"Hi {name}: {', '.join(topics)}"
+    return message.upper() if excited else message
+
+print(make_message("Sam", "lists", "loops", excited=True))''',
+        "Use defaults, *args, and keyword options to make functions reusable.",
+    ),
+    (
+        "functions",
+        "Functions & Scope",
+        "Iterate with enumerate and zip",
+        '''names = ["Ada", "Grace", "Linus"]
+scores = [98, 94, 91]
+
+for position, (name, score) in enumerate(zip(names, scores), start=1):
+    print(f"{position}. {name}: {score}")''',
+        "Pair related sequences with zip() and include an index with enumerate().",
+    ),
+    (
+        "functions",
+        "Functions & Scope",
+        "Generator Functions",
+        '''def countdown(start):
+    while start > 0:
+        yield start
+        start -= 1
+
+print(list(countdown(3)))''',
+        "Yield values one at a time instead of building a complete list up front.",
+    ),
+    (
+        "oop",
+        "Object-Oriented Python",
+        "Classes and Inheritance",
+        '''class Animal:
+    def __init__(self, name):
+        self.name = name
+
+    def speak(self):
+        return "..."
+
+class Dog(Animal):
+    def speak(self):
+        return f"{self.name} says woof"
+
+print(Dog("Milo").speak())''',
+        "Define instance data in __init__() and specialize behavior in a subclass.",
+    ),
+    (
+        "exceptions",
+        "Exceptions",
+        "Handle Specific Exceptions",
+        '''raw_value = "12"
+
+try:
+    quantity = int(raw_value)
+    average = 100 / quantity
+except ValueError:
+    print("Enter a whole number")
+except ZeroDivisionError:
+    print("Quantity must not be zero")
+else:
+    print(f"Average: {average}")''',
+        "Catch expected exception types; use else for code that runs after success.",
+    ),
+    (
+        "file_handling",
+        "File Handling",
+        "Work with Paths Safely",
+        '''from pathlib import Path
+
+notes_path = Path("notes.txt")
+notes_path.write_text("First line\\n", encoding="utf-8")
+notes_path.write_text(
+    notes_path.read_text(encoding="utf-8") + "Second line\\n",
+    encoding="utf-8",
+)
+
+print(notes_path.exists(), notes_path.read_text(encoding="utf-8"))''',
+        "Use pathlib.Path for readable file paths and specify text encodings.",
+    ),
+    (
+        "builtins",
+        "Built-in Functions",
+        "Useful Built-in Functions",
+        '''temperatures = [18, 22, 20, 25]
+
+print(len(temperatures), min(temperatures), max(temperatures))
+print(sum(temperatures) / len(temperatures))
+print(all(temp > 0 for temp in temperatures))
+print(sorted(temperatures, reverse=True))''',
+        "Combine common built-ins to inspect, aggregate, and sort data.",
+    ),
+    (
+        "regex",
+        "Regular Expressions",
+        "Find Patterns in Text",
+        '''import re
+
+text = "Contact team@example.com or help@example.org"
+addresses = re.findall(r"[\\w.+-]+@[\\w.-]+\\.[A-Za-z]{2,}", text)
+
+print(addresses)''',
+        "Use re.findall() to collect all matches for a regular expression.",
+    ),
+    (
+        "debugging",
+        "Debugging & Logging",
+        "Log Useful Runtime Information",
+        '''import logging
+
+logging.basicConfig(level=logging.INFO, format="%(levelname)s: %(message)s")
+item_count = 3
+logging.info("Loaded %d items", item_count)
+logging.warning("No configuration file was found")''',
+        "Use logging levels and parameterized messages instead of scattered print calls.",
+    ),
+    (
+        "testing",
+        "Testing",
+        "Write a Small Unit Test",
+        '''import unittest
+
+def add(left, right):
+    return left + right
+
+class AddTests(unittest.TestCase):
+    def test_adds_two_numbers(self):
+        self.assertEqual(add(2, 3), 5)
+
+if __name__ == "__main__":
+    unittest.main()''',
+        "Use unittest assertions to check behavior and catch regressions.",
+    ),
+    (
+        "modules",
+        "Modules & Data Formats",
+        "Encode and Decode JSON",
+        '''import json
+
+user = {"name": "Ada", "active": True}
+payload = json.dumps(user, indent=2)
+restored = json.loads(payload)
+
+print(payload)
+print(restored["name"])''',
+        "Convert between Python values and JSON text with the standard library.",
+    ),
+    (
+        "decorators",
+        "Decorators",
+        "Measure a Function Call",
+        '''from functools import wraps
+from time import perf_counter
+
+def timed(function):
+    @wraps(function)
+    def wrapper(*args, **kwargs):
+        started = perf_counter()
+        result = function(*args, **kwargs)
+        print(f"Elapsed: {perf_counter() - started:.6f}s")
+        return result
+    return wrapper
+
+@timed
+def total(values):
+    return sum(values)
+
+print(total([1, 2, 3]))''',
+        "Wrap a function to add behavior while preserving its metadata.",
+    ),
+    (
+        "typing",
+        "Type Hints",
+        "Annotate Function Inputs and Outputs",
+        '''def average(values: list[float]) -> float:
+    if not values:
+        raise ValueError("values must not be empty")
+    return sum(values) / len(values)
+
+print(average([2.0, 4.0, 6.0]))''',
+        "Use annotations to document expected values; Python does not enforce them at runtime.",
+    ),
+    (
+        "python_idioms",
+        "Pythonic Patterns",
+        "Sort Records with a Key",
+        '''students = [
+    {"name": "Mina", "score": 84},
+    {"name": "Omar", "score": 92},
+]
+
+ranked = sorted(students, key=lambda student: student["score"], reverse=True)
+print([student["name"] for student in ranked])''',
+        "Pass a key function to sorted() when records need a custom sort order.",
+    ),
+]
+
 
 # --- DATABASE SETUP ---
 def init_db():
@@ -69,6 +332,20 @@ def init_db():
             default_snippets,
         )
         conn.commit()
+    cursor.executemany(
+        """
+        INSERT INTO snippets (category, category_name, title, code, desc)
+        SELECT ?, ?, ?, ?, ?
+        WHERE NOT EXISTS (
+            SELECT 1 FROM snippets WHERE category = ? AND title = ?
+        )
+        """,
+        [
+            (*snippet, snippet[0], snippet[2])
+            for snippet in REFERENCE_SNIPPETS
+        ],
+    )
+    conn.commit()
     conn.close()
 
 
@@ -214,6 +491,61 @@ def home():
             }
             .site-footer a { color: #8b949e; text-decoration: none; }
             .site-footer a:hover { color: var(--accent-blue); }
+            .quick-actions {
+                display: flex; flex-wrap: wrap; justify-content: center;
+                align-items: center; gap: 10px;
+            }
+            .tool-btn {
+                background: #21262d; color: var(--text-main);
+                border: 1px solid var(--border-color); padding: 8px 14px;
+                border-radius: 6px; cursor: pointer; font-size: 0.9em;
+            }
+            .tool-btn:hover, .tool-btn[aria-pressed="true"] {
+                background: #30363d; border-color: var(--accent-blue);
+            }
+            .results-count { color: #8b949e; font-size: 0.9em; margin: 18px 0; }
+            .empty-state {
+                padding: 24px; border: 1px dashed var(--border-color);
+                border-radius: 8px; color: #8b949e; text-align: center;
+            }
+            .save-btn {
+                background: transparent; color: #c9d1d9; border: 1px solid #484f58;
+                padding: 4px 10px; border-radius: 4px; cursor: pointer; font-size: 0.85em;
+            }
+            .save-btn[aria-pressed="true"] {
+                color: #f2cc60; border-color: #9e6a03;
+            }
+            .quiz-panel {
+                max-width: 700px; margin: 0 auto 30px; padding: 22px;
+                background: #161b22; border: 1px solid var(--border-color);
+                border-top: 3px solid var(--accent-green); border-radius: 8px;
+            }
+            .quiz-panel h2 { margin: 0 0 8px; color: #f0f6fc; font-size: 1.25em; }
+            .quiz-progress, .quiz-feedback { color: #8b949e; }
+            .quiz-question { color: #f0f6fc; font-weight: 600; }
+            .quiz-options { display: grid; gap: 8px; margin: 16px 0; }
+            .quiz-option {
+                display: flex; align-items: flex-start; gap: 10px; padding: 11px 12px;
+                background: #0d1117; border: 1px solid var(--border-color); border-radius: 6px;
+                cursor: pointer;
+            }
+            .quiz-option:has(input:checked) { border-color: var(--accent-blue); }
+            .quiz-feedback { min-height: 1.5em; }
+            .quiz-feedback.correct { color: var(--accent-green); }
+            .quiz-feedback.incorrect { color: #ff7b72; }
+            .quiz-controls { display: flex; flex-wrap: wrap; gap: 10px; }
+            .quiz-controls button { background: #21262d; color: var(--text-main); }
+            .quiz-controls .check-answer { background: #238636; color: white; border-color: #2ea043; }
+            @media print {
+                body { background: white; color: #111; padding: 0; }
+                header, .controls-container, #quizPanel, .pro-section-title, .pro-grid,
+                .site-footer, .copy-btn, .save-btn { display: none !important; }
+                .container { max-width: none; }
+                .card { background: white; color: #111; border-color: #bbb; box-shadow: none; break-inside: avoid; }
+                h2, .card h2 { color: #111; }
+                pre { color: #111; background: #f4f4f4; white-space: pre-wrap; }
+                .category-badge { background: #ddd; color: #111; }
+            }
         </style>
     </head>
     <body>
@@ -232,29 +564,51 @@ def home():
             </header>
 
             <div class="controls-container">
-                <input type="text" id="searchInput" placeholder="Search Python topics or code snippets..." onkeyup="filterSnippets()">
+                <input type="search" id="searchInput" placeholder="Search topics, examples, or code..." aria-label="Search Python topics and code" oninput="filterSnippets()">
                 <div class="filter-buttons">
-                    <button class="filter-btn active" onclick="filterCategory('all', this)">All Topics</button>
+                    <button id="allTopicsBtn" class="filter-btn active" onclick="filterCategory('all', this)">All Topics</button>
                     {% for cat in categories %}
                     <button class="filter-btn" onclick="filterCategory('{{ cat.category }}', this)">{{ cat.category_name }}</button>
                     {% endfor %}
                 </div>
+                <div class="quick-actions" aria-label="Reference tools">
+                    <button id="savedFilterBtn" class="tool-btn" type="button" aria-pressed="false" onclick="filterSaved(this)">Saved (0)</button>
+                    <button id="quizToggle" class="tool-btn" type="button" aria-expanded="false" aria-controls="quizPanel" onclick="toggleQuiz()">Practice Quiz</button>
+                    <button class="tool-btn" type="button" onclick="window.print()">Print / Save PDF</button>
+                </div>
             </div>
 
+            <section id="quizPanel" class="quiz-panel" hidden aria-labelledby="quizTitle">
+                <h2 id="quizTitle">Python Quick Check</h2>
+                <p id="quizProgress" class="quiz-progress"></p>
+                <p id="quizQuestion" class="quiz-question"></p>
+                <div id="quizOptions" class="quiz-options" role="radiogroup" aria-labelledby="quizQuestion"></div>
+                <p id="quizFeedback" class="quiz-feedback" role="status" aria-live="polite"></p>
+                <div class="quiz-controls">
+                    <button id="quizCheck" class="tool-btn check-answer" type="button" onclick="checkQuizAnswer()">Check Answer</button>
+                    <button id="quizNext" class="tool-btn" type="button" onclick="advanceQuiz()" hidden>Next Question</button>
+                </div>
+            </section>
+
+            <p id="resultsCount" class="results-count" aria-live="polite"></p>
             <div id="snippetList">
                 {% for item in sheets %}
-                <div class="card snippet-card" data-category="{{ item.category }}" data-search="{{ item.title | lower }} {{ item.desc | lower }} {{ item.category_name | lower }}">
+                <div class="card snippet-card" data-id="{{ item.id }}" data-category="{{ item.category }}" data-search="{{ item.title | lower }} {{ item.desc | lower }} {{ item.category_name | lower }} {{ item.code | lower }}">
                     <span class="category-badge">{{ item.category_name }}</span>
                     <h2>{{ item.title }}</h2>
                     <p>{{ item.desc }}</p>
                     <div class="code-header">
                         <span>Python</span>
-                        <button class="copy-btn" onclick="copyCode(this)">Copy Code</button>
+                        <div class="code-actions">
+                            <button class="save-btn" type="button" data-save-id="{{ item.id }}" aria-pressed="false" onclick="toggleSaved(this)">Save</button>
+                            <button class="copy-btn" type="button" onclick="copyCode(this)">Copy Code</button>
+                        </div>
                     </div>
                     <pre><code>{{ item.code }}</code></pre>
                 </div>
                 {% endfor %}
             </div>
+            <p id="noResults" class="empty-state" hidden>No matching snippets. Try another search or topic.</p>
 
             <h2 class="pro-section-title">🚀 Saba Dev Pro Resources</h2>
             <div class="pro-grid">
@@ -277,36 +631,213 @@ def home():
 
         <script>
             let currentCategory = 'all';
+            let savedOnly = false;
+            const savedStorageKey = 'saba-python-hub-saved-snippets';
+            let savedSnippetIds = new Set();
+            try {
+                savedSnippetIds = new Set(JSON.parse(localStorage.getItem(savedStorageKey) || '[]'));
+            } catch (error) {
+                savedSnippetIds = new Set();
+            }
+
+            const quizQuestions = [
+                {
+                    question: 'What values does list(range(3)) produce?',
+                    options: ['[1, 2, 3]', '[0, 1, 2]', '[0, 1, 2, 3]'],
+                    answer: 1,
+                    explanation: 'range(3) starts at 0 and stops before 3.'
+                },
+                {
+                    question: 'Which expression safely reads a missing dictionary key with a fallback?',
+                    options: ['profile["city"]', 'profile.get("city", "Unknown")', 'profile.city'],
+                    answer: 1,
+                    explanation: 'dict.get(key, default) returns the fallback when the key is absent.'
+                },
+                {
+                    question: 'Which keyword skips to the next loop iteration?',
+                    options: ['break', 'return', 'continue'],
+                    answer: 2,
+                    explanation: 'continue skips the rest of the current iteration.'
+                },
+                {
+                    question: 'What does a with statement help manage when opening a file?',
+                    options: ['Automatic file cleanup', 'The file name extension', 'The file contents format'],
+                    answer: 0,
+                    explanation: 'A with block closes the file when the block exits.'
+                },
+                {
+                    question: 'Which built-in creates a new sorted list without changing the original?',
+                    options: ['list.sort()', 'sorted()', 'order()'],
+                    answer: 1,
+                    explanation: 'sorted(iterable) returns a new list; list.sort() changes a list in place.'
+                }
+            ];
+            let quizIndex = 0;
+            let quizScore = 0;
+            let quizComplete = false;
+
+            function setActiveFilter(btn) {
+                for (let button of document.getElementsByClassName('filter-btn')) {
+                    button.classList.remove('active');
+                }
+                btn.classList.add('active');
+            }
+
             function filterCategory(category, btn) {
                 currentCategory = category;
-                let buttons = document.getElementsByClassName('filter-btn');
-                for (let b of buttons) { b.classList.remove('active'); }
-                btn.classList.add('active');
+                savedOnly = false;
+                document.getElementById('savedFilterBtn').setAttribute('aria-pressed', 'false');
+                setActiveFilter(btn);
                 applyFilters();
             }
+
+            function filterSaved(btn) {
+                savedOnly = !savedOnly;
+                currentCategory = 'all';
+                btn.setAttribute('aria-pressed', String(savedOnly));
+                setActiveFilter(savedOnly ? btn : document.getElementById('allTopicsBtn'));
+                applyFilters();
+            }
+
             function applyFilters() {
                 let input = document.getElementById('searchInput').value.toLowerCase();
                 let cards = document.getElementsByClassName('snippet-card');
+                let visibleCount = 0;
                 for (let i = 0; i < cards.length; i++) {
                     let cardCategory = cards[i].getAttribute('data-category');
                     let searchText = cards[i].getAttribute('data-search');
+                    let snippetId = cards[i].getAttribute('data-id');
                     let matchesCategory = (currentCategory === 'all' || cardCategory === currentCategory);
                     let matchesSearch = searchText.includes(input);
-                    if (matchesCategory && matchesSearch) {
+                    let matchesSaved = !savedOnly || savedSnippetIds.has(snippetId);
+                    if (matchesCategory && matchesSearch && matchesSaved) {
                         cards[i].style.display = "";
+                        visibleCount += 1;
                     } else {
                         cards[i].style.display = "none";
                     }
                 }
+                document.getElementById('resultsCount').textContent =
+                    `${visibleCount} ${visibleCount === 1 ? 'snippet' : 'snippets'}`;
+                document.getElementById('noResults').hidden = visibleCount !== 0;
             }
+
             function filterSnippets() { applyFilters(); }
-            function copyCode(btn) {
-                let preTag = btn.parentElement.nextElementSibling;
-                navigator.clipboard.writeText(preTag.innerText).then(() => {
-                    btn.innerText = "Copied! ✅";
-                    setTimeout(() => { btn.innerText = "Copy Code"; }, 2000);
+
+            function updateSavedControls() {
+                document.getElementById('savedFilterBtn').textContent = `Saved (${savedSnippetIds.size})`;
+                for (let button of document.querySelectorAll('.save-btn')) {
+                    const isSaved = savedSnippetIds.has(button.dataset.saveId);
+                    button.textContent = isSaved ? 'Saved' : 'Save';
+                    button.setAttribute('aria-pressed', String(isSaved));
+                }
+            }
+
+            function toggleSaved(btn) {
+                const snippetId = btn.dataset.saveId;
+                if (savedSnippetIds.has(snippetId)) {
+                    savedSnippetIds.delete(snippetId);
+                } else {
+                    savedSnippetIds.add(snippetId);
+                }
+                try {
+                    localStorage.setItem(savedStorageKey, JSON.stringify([...savedSnippetIds]));
+                } catch (error) {
+                    // Keep the current page usable if browser storage is unavailable.
+                }
+                updateSavedControls();
+                applyFilters();
+            }
+
+            function toggleQuiz() {
+                const panel = document.getElementById('quizPanel');
+                const toggle = document.getElementById('quizToggle');
+                panel.hidden = !panel.hidden;
+                toggle.setAttribute('aria-expanded', String(!panel.hidden));
+                if (!panel.hidden) {
+                    renderQuizQuestion();
+                    panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                }
+            }
+
+            function renderQuizQuestion() {
+                const question = quizQuestions[quizIndex];
+                const options = document.getElementById('quizOptions');
+                document.getElementById('quizProgress').textContent =
+                    `Question ${quizIndex + 1} of ${quizQuestions.length} | Score ${quizScore}`;
+                document.getElementById('quizQuestion').textContent = question.question;
+                document.getElementById('quizFeedback').textContent = '';
+                document.getElementById('quizFeedback').className = 'quiz-feedback';
+                document.getElementById('quizCheck').hidden = false;
+                document.getElementById('quizNext').hidden = true;
+                options.replaceChildren();
+                question.options.forEach((text, index) => {
+                    const label = document.createElement('label');
+                    const radio = document.createElement('input');
+                    radio.type = 'radio';
+                    radio.name = 'quick-quiz-answer';
+                    radio.value = String(index);
+                    label.className = 'quiz-option';
+                    label.append(radio, document.createTextNode(text));
+                    options.append(label);
                 });
             }
+
+            function checkQuizAnswer() {
+                const selected = document.querySelector('input[name="quick-quiz-answer"]:checked');
+                const feedback = document.getElementById('quizFeedback');
+                if (!selected) {
+                    feedback.textContent = 'Choose an answer first.';
+                    return;
+                }
+                const correct = Number(selected.value) === quizQuestions[quizIndex].answer;
+                if (correct) quizScore += 1;
+                for (let option of document.querySelectorAll('input[name="quick-quiz-answer"]')) {
+                    option.disabled = true;
+                }
+                feedback.textContent = `${correct ? 'Correct.' : 'Not quite.'} ${quizQuestions[quizIndex].explanation}`;
+                feedback.classList.add(correct ? 'correct' : 'incorrect');
+                document.getElementById('quizCheck').hidden = true;
+                const next = document.getElementById('quizNext');
+                next.textContent = quizIndex === quizQuestions.length - 1 ? 'Finish Quiz' : 'Next Question';
+                next.hidden = false;
+            }
+
+            function advanceQuiz() {
+                if (quizComplete) {
+                    quizComplete = false;
+                    quizIndex = 0;
+                    quizScore = 0;
+                    renderQuizQuestion();
+                    return;
+                }
+                if (quizIndex === quizQuestions.length - 1) {
+                    quizComplete = true;
+                    document.getElementById('quizProgress').textContent = `Final score: ${quizScore} / ${quizQuestions.length}`;
+                    document.getElementById('quizQuestion').textContent = 'Quick check complete';
+                    document.getElementById('quizOptions').replaceChildren();
+                    document.getElementById('quizFeedback').textContent = 'Review a topic above, or take the quiz again.';
+                    document.getElementById('quizNext').textContent = 'Try Again';
+                    return;
+                }
+                quizIndex += 1;
+                renderQuizQuestion();
+            }
+
+            async function copyCode(btn) {
+                let preTag = btn.parentElement.nextElementSibling;
+                try {
+                    await navigator.clipboard.writeText(preTag.innerText);
+                    btn.innerText = "Copied! ✅";
+                    setTimeout(() => { btn.innerText = "Copy Code"; }, 2000);
+                } catch (error) {
+                    btn.innerText = "Select Code";
+                    setTimeout(() => { btn.innerText = "Copy Code"; }, 2000);
+                }
+            }
+
+            updateSavedControls();
+            applyFilters();
         </script>
     </body>
     </html>
