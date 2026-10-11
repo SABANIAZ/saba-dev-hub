@@ -1,3 +1,4 @@
+import os
 import sqlite3
 from flask import (
     Flask,
@@ -15,9 +16,10 @@ app.secret_key = "saba_dev_super_secret_key"
 
 # --- DATABASE SETUP ---
 def init_db():
-  conn = sqlite3.connect("database.db")
-  cursor = conn.cursor()
-  cursor.execute("""
+    conn = sqlite3.connect("database.db")
+    cursor = conn.cursor()
+    cursor.execute(
+        """
         CREATE TABLE IF NOT EXISTS snippets (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             category TEXT NOT NULL,
@@ -26,47 +28,48 @@ def init_db():
             code TEXT NOT NULL,
             desc TEXT NOT NULL
         )
-    """)
-  cursor.execute("SELECT COUNT(*) FROM snippets")
-  if cursor.fetchone()[0] == 0:
-    default_snippets = [
-        (
-            "file_handling",
-            "File Handling",
-            "Reading and Writing Files",
+    """
+    )
+    cursor.execute("SELECT COUNT(*) FROM snippets")
+    if cursor.fetchone()[0] == 0:
+        default_snippets = [
             (
-                '# Writing to a file\nwith open("note.txt", "w") as f:\n'
-                '    f.write("Hello Saba Dev!")\n\n# Reading from a file\nwith'
-                ' open("note.txt", "r") as f:\n    print(f.read())'
+                "file_handling",
+                "File Handling",
+                "Reading and Writing Files",
+                (
+                    '# Writing to a file\nwith open("note.txt", "w") as f:\n'
+                    '    f.write("Hello Saba Dev!")\n\n# Reading from a file\nwith'
+                    ' open("note.txt", "r") as f:\n    print(f.read())'
+                ),
+                (
+                    "Learn how to create, write, and read files securely using"
+                    " Python's built-in with open() context manager."
+                ),
             ),
             (
-                "Learn how to create, write, and read files securely using"
-                " Python's built-in with open() context manager."
+                "basics",
+                "Basics & Variables",
+                "Variables and Data Types",
+                (
+                    'name = "Saba Dev"\nage = 25\nprice = 19.99\nis_active ='
+                    ' True\nprint(f"Name: {name}, Age: {age}")'
+                ),
+                (
+                    "Learn how to declare variables and understand basic data types"
+                    " like integers, floats, strings, and booleans in Python."
+                ),
             ),
-        ),
-        (
-            "basics",
-            "Basics & Variables",
-            "Variables and Data Types",
-            (
-                'name = "Saba Dev"\nage = 25\nprice = 19.99\nis_active ='
-                ' True\nprint(f"Name: {name}, Age: {age}")'
-            ),
-            (
-                "Learn how to declare variables and understand basic data types"
-                " like integers, floats, strings, and booleans in Python."
-            ),
-        ),
-    ]
-    cursor.executemany(
-        """
+        ]
+        cursor.executemany(
+            """
             INSERT INTO snippets (category, category_name, title, code, desc)
             VALUES (?, ?, ?, ?, ?)
         """,
-        default_snippets,
-    )
-    conn.commit()
-  conn.close()
+            default_snippets,
+        )
+        conn.commit()
+    conn.close()
 
 
 init_db()
@@ -94,20 +97,20 @@ pro_resources = [
 # --- HOME ROUTE ---
 @app.route("/")
 def home():
-  conn = sqlite3.connect("database.db")
-  conn.row_factory = sqlite3.Row
-  cursor = conn.cursor()
+    conn = sqlite3.connect("database.db")
+    conn.row_factory = sqlite3.Row
+    cursor = conn.cursor()
 
-  cursor.execute("SELECT * FROM snippets ORDER BY id DESC")
-  cheatsheets = cursor.fetchall()
+    cursor.execute("SELECT * FROM snippets ORDER BY id DESC")
+    cheatsheets = cursor.fetchall()
 
-  cursor.execute(
-      "SELECT DISTINCT category, category_name FROM snippets ORDER BY id"
-  )
-  categories = cursor.fetchall()
-  conn.close()
+    cursor.execute(
+        "SELECT DISTINCT category, category_name FROM snippets ORDER BY id"
+    )
+    categories = cursor.fetchall()
+    conn.close()
 
-  html_template = """
+    html_template = """
     <!DOCTYPE html>
     <html lang="en">
     <head>
@@ -306,12 +309,12 @@ def home():
     </body>
     </html>
     """
-  return render_template_string(
-      html_template,
-      sheets=cheatsheets,
-      resources=pro_resources,
-      categories=categories,
-  )
+    return render_template_string(
+        html_template,
+        sheets=cheatsheets,
+        resources=pro_resources,
+        categories=categories,
+    )
 
 
 @app.route("/about")
@@ -324,21 +327,25 @@ def privacy():
     return render_template("privacy.html")
 
 
+@app.route("/contact")
+def contact():
+    return render_template("contact.html")
+
+
 # --- LOGIN ROUTE ---
 @app.route("/login", methods=["GET", "POST"])
 def login():
-  error = ""
-  if request.method == "POST":
-    username = request.form.get("username")
-    password = request.form.get("password")
-    # Default Admin Credentials
-    if username == "saba" and password == "saba123":
-      session["logged_in"] = True
-      return redirect(url_for("admin"))
-    else:
-      error = "Invalid Username or Password!"
+    error = ""
+    if request.method == "POST":
+        username = request.form.get("username")
+        password = request.form.get("password")
+        if username == "saba" and password == "saba123":
+            session["logged_in"] = True
+            return redirect(url_for("admin"))
+        else:
+            error = "Invalid Username or Password!"
 
-  login_template = """
+    login_template = """
     <!DOCTYPE html>
     <html lang="en">
     <head>
@@ -377,56 +384,54 @@ def login():
     </body>
     </html>
     """
-  return render_template_string(login_template, error=error)
+    return render_template_string(login_template, error=error)
 
 
-# --- LOGOUT ROUTE ---
 @app.route("/logout")
 def logout():
-  session.pop("logged_in", None)
-  return redirect(url_for("login"))
-
-
-# --- ADMIN DASHBOARD ROUTE ---
-@app.route("/admin", methods=["GET", "POST"])
-def admin():
-  if not session.get("logged_in"):
+    session.pop("logged_in", None)
     return redirect(url_for("login"))
 
-  message = ""
-  conn = sqlite3.connect("database.db")
-  conn.row_factory = sqlite3.Row
-  cursor = conn.cursor()
 
-  if request.method == "POST":
-    if "delete_id" in request.form:
-      snippet_id = request.form.get("delete_id")
-      cursor.execute("DELETE FROM snippets WHERE id = ?", (snippet_id,))
-      conn.commit()
-      message = "Snippet deleted successfully! 🗑️"
-    else:
-      category = request.form.get("category")
-      category_name = request.form.get("category_name")
-      title = request.form.get("title")
-      code = request.form.get("code")
-      desc = request.form.get("desc")
+@app.route("/admin", methods=["GET", "POST"])
+def admin():
+    if not session.get("logged_in"):
+        return redirect(url_for("login"))
 
-      if category and title and code:
-        cursor.execute(
-            """
-                INSERT INTO snippets (category, category_name, title, code, desc)
-                VALUES (?, ?, ?, ?, ?)
-            """,
-            (category, category_name, title, code, desc),
-        )
-        conn.commit()
-        message = "Snippet successfully added! 🎉"
+    message = ""
+    conn = sqlite3.connect("database.db")
+    conn.row_factory = sqlite3.Row
+    cursor = conn.cursor()
 
-  cursor.execute("SELECT * FROM snippets ORDER BY id DESC")
-  snippets = cursor.fetchall()
-  conn.close()
+    if request.method == "POST":
+        if "delete_id" in request.form:
+            snippet_id = request.form.get("delete_id")
+            cursor.execute("DELETE FROM snippets WHERE id = ?", (snippet_id,))
+            conn.commit()
+            message = "Snippet deleted successfully! 🗑️"
+        else:
+            category = request.form.get("category")
+            category_name = request.form.get("category_name")
+            title = request.form.get("title")
+            code = request.form.get("code")
+            desc = request.form.get("desc")
 
-  admin_template = """
+            if category and title and code:
+                cursor.execute(
+                    """
+                    INSERT INTO snippets (category, category_name, title, code, desc)
+                    VALUES (?, ?, ?, ?, ?)
+                """,
+                    (category, category_name, title, code, desc),
+                )
+                conn.commit()
+                message = "Snippet successfully added! 🎉"
+
+    cursor.execute("SELECT * FROM snippets ORDER BY id DESC")
+    snippets = cursor.fetchall()
+    conn.close()
+
+    admin_template = """
     <!DOCTYPE html>
     <html lang="en">
     <head>
@@ -465,7 +470,7 @@ def admin():
             </div>
             <h2>⚙️ Admin Dashboard</h2>
             {% if message %}<p class="msg">{{ message }}</p>{% endif %}
-            
+
             <h3>Add New Python Snippet</h3>
             <form method="POST">
                 <div class="form-group">
@@ -522,43 +527,42 @@ def admin():
     </body>
     </html>
     """
-  return render_template_string(admin_template, message=message, snippets=snippets)
+    return render_template_string(admin_template, message=message, snippets=snippets)
 
 
-# --- EDIT SNIPPET ROUTE ---
 @app.route("/edit/<int:id>", methods=["GET", "POST"])
 def edit_snippet(id):
-  if not session.get("logged_in"):
-    return redirect(url_for("login"))
+    if not session.get("logged_in"):
+        return redirect(url_for("login"))
 
-  conn = sqlite3.connect("database.db")
-  conn.row_factory = sqlite3.Row
-  cursor = conn.cursor()
+    conn = sqlite3.connect("database.db")
+    conn.row_factory = sqlite3.Row
+    cursor = conn.cursor()
 
-  if request.method == "POST":
-    category = request.form.get("category")
-    category_name = request.form.get("category_name")
-    title = request.form.get("title")
-    code = request.form.get("code")
-    desc = request.form.get("desc")
+    if request.method == "POST":
+        category = request.form.get("category")
+        category_name = request.form.get("category_name")
+        title = request.form.get("title")
+        code = request.form.get("code")
+        desc = request.form.get("desc")
 
-    cursor.execute(
-        """
+        cursor.execute(
+            """
             UPDATE snippets 
             SET category = ?, category_name = ?, title = ?, code = ?, desc = ?
             WHERE id = ?
         """,
-        (category, category_name, title, code, desc, id),
-    )
-    conn.commit()
+            (category, category_name, title, code, desc, id),
+        )
+        conn.commit()
+        conn.close()
+        return redirect(url_for("admin"))
+
+    cursor.execute("SELECT * FROM snippets WHERE id = ?", (id,))
+    snippet = cursor.fetchone()
     conn.close()
-    return redirect(url_for("admin"))
 
-  cursor.execute("SELECT * FROM snippets WHERE id = ?", (id,))
-  snippet = cursor.fetchone()
-  conn.close()
-
-  edit_template = """
+    edit_template = """
     <!DOCTYPE html>
     <html lang="en">
     <head>
@@ -608,11 +612,9 @@ def edit_snippet(id):
     </body>
     </html>
     """
-  return render_template_string(edit_template, snippet=snippet)
+    return render_template_string(edit_template, snippet=snippet)
 
-
-import os
 
 if __name__ == "__main__":
-  port = int(os.environ.get("PORT", 5000))
-  app.run(host="0.0.0.0", port=port)
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host="0.0.0.0", port=port)
