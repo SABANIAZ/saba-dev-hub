@@ -327,9 +327,12 @@ def privacy():
     return render_template("privacy.html")
 
 
-@app.route("/contact")
+@app.route("/contact", methods=["GET", "POST"])
 def contact():
-    return render_template("contact.html")
+    msg_sent = False
+    if request.method == "POST":
+        msg_sent = True
+    return render_template("contact.html", msg_sent=msg_sent)
 
 
 # --- LOGIN ROUTE ---
@@ -465,10 +468,10 @@ def admin():
     <body>
         <div class="container">
             <div class="top-bar">
-                <a href="/" class="back-link">← Back to Website</a>
-                <a href="/logout" class="logout-btn">Logout 🚪</a>
+                <a href="/" class="back-link">Back to Website</a>
+                <a href="/logout" class="logout-btn">Logout</a>
             </div>
-            <h2>⚙️ Admin Dashboard</h2>
+            <h2>Admin Dashboard</h2>
             {% if message %}<p class="msg">{{ message }}</p>{% endif %}
 
             <h3>Add New Python Snippet</h3>
@@ -548,7 +551,7 @@ def edit_snippet(id):
 
         cursor.execute(
             """
-            UPDATE snippets 
+            UPDATE snippets
             SET category = ?, category_name = ?, title = ?, code = ?, desc = ?
             WHERE id = ?
         """,
@@ -567,6 +570,7 @@ def edit_snippet(id):
     <html lang="en">
     <head>
         <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Saba Dev - Edit Snippet</title>
         <style>
             body { font-family: 'Segoe UI', sans-serif; background-color: #0d1117; color: #c9d1d9; padding: 40px; }
@@ -583,8 +587,8 @@ def edit_snippet(id):
     </head>
     <body>
         <div class="container">
-            <a href="/admin" class="back-link">← Back to Dashboard</a>
-            <h2>✏️ Edit Snippet</h2>
+            <a href="/admin" class="back-link">Back to Dashboard</a>
+            <h2>Edit Snippet</h2>
             <form method="POST">
                 <div class="form-group">
                     <label>Category Key:</label>
