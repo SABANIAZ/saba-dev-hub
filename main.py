@@ -1,4 +1,5 @@
 import os
+import secrets
 import sqlite3
 from flask import (
     Flask,
@@ -11,7 +12,15 @@ from flask import (
 )
 
 app = Flask(__name__)
-app.secret_key = "saba_dev_super_secret_key"
+FLASK_SECRET_KEY = os.environ.get("FLASK_SECRET_KEY")
+ADMIN_USERNAME = os.environ.get("ADMIN_USERNAME")
+ADMIN_PASSWORD = os.environ.get("ADMIN_PASSWORD")
+
+if FLASK_SECRET_KEY:
+    app.secret_key = FLASK_SECRET_KEY
+else:
+    app.secret_key = secrets.token_urlsafe(48)
+    app.logger.warning("FLASK_SECRET_KEY is not configured; sessions reset on restart.")
 
 REFERENCE_SNIPPETS = [
     (
@@ -873,9 +882,14 @@ def contact():
 def login():
     error = ""
     if request.method == "POST":
-        username = request.form.get("username")
-        password = request.form.get("password")
-        if username == "saba" and password == "saba123":
+        username = request.form.get("username") or ""
+        password = request.form.get("password") or ""
+        if not (FLASK_SECRET_KEY and ADMIN_USERNAME and ADMIN_PASSWORD):
+            error = "Admin login is not configured on this server."
+        elif (
+            secrets.compare_digest(username, ADMIN_USERNAME)
+            and secrets.compare_digest(password, ADMIN_PASSWORD)
+        ):
             session["logged_in"] = True
             return redirect(url_for("admin"))
         else:
@@ -907,11 +921,11 @@ def login():
             <form method="POST">
                 <div class="form-group">
                     <label>Username:</label>
-                    <input type="text" name="username" required placeholder="saba">
+                    <input type="text" name="username" required placeholder="Admin username" autocomplete="username">
                 </div>
                 <div class="form-group">
                     <label>Password:</label>
-                    <input type="password" name="password" required placeholder="saba123">
+                    <input type="password" name="password" required placeholder="Admin password" autocomplete="current-password">
                 </div>
                 <button type="submit" class="btn">Login</button>
             </form>
