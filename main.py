@@ -590,6 +590,18 @@ def home():
                 margin: 0 0 10px; color: #8cebd0; font-size: 0.78rem;
                 font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase;
             }
+            .hero-snake {
+                position: absolute; top: 50%; right: clamp(24px, 7vw, 82px);
+                color: #a6f2d7; font-size: clamp(4rem, 9vw, 7rem); line-height: 1;
+                filter: drop-shadow(0 14px 28px rgba(120, 230, 192, 0.22));
+                opacity: 0.92; transform: translateY(-50%) rotate(-12deg);
+                animation: snake-float 5s ease-in-out infinite;
+                pointer-events: none;
+            }
+            @keyframes snake-float {
+                0%, 100% { transform: translateY(-50%) rotate(-12deg); }
+                50% { transform: translateY(calc(-50% - 10px)) rotate(-5deg); }
+            }
             .home-hero h2 {
                 max-width: 660px; margin: 0 0 12px; color: #f2f8ff;
                 font-size: clamp(1.7rem, 4vw, 2.5rem); letter-spacing: -0.04em; line-height: 1.2;
@@ -640,6 +652,10 @@ def home():
                 body { padding: 16px; }
                 header { padding: 20px 16px; }
                 .controls-container { padding: 14px; }
+                .hero-snake { top: 22px; right: 20px; font-size: 2.6rem; opacity: 0.58; transform: none; }
+            }
+            @media (prefers-reduced-motion: reduce) {
+                .hero-snake { animation: none; }
             }
         </style>
     </head>
@@ -647,7 +663,7 @@ def home():
         <div class="container">
             <header>
                 <div class="brand">
-                    <h1>Saba Dev's Python Hub</h1>
+                    <h1><span aria-hidden="true">🐍</span> Saba Dev's Python Hub</h1>
                     <p class="tagline">Your ultimate lifetime destination for Python Cheat Sheets, Code Snippets, and Developer Resources.</p>
                 </div>
                 <nav class="header-nav" aria-label="Main navigation">
@@ -659,6 +675,7 @@ def home():
             </header>
 
             <section class="home-hero" aria-labelledby="homeHeroTitle">
+                <span class="hero-snake" aria-hidden="true">🐍</span>
                 <p class="hero-eyebrow">A practical Python reference</p>
                 <h2 id="homeHeroTitle">Less searching. More building.</h2>
                 <p>Find clear, copy-ready examples for everyday Python, then save the snippets you want to revisit.</p>
