@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Privacy Policy for Saba Dev's Python Hub, including cookies and third-party advertising.">
     <title>Privacy Policy | Saba Dev's Python Hub</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='site.css') }}">
     <style>
         :root {
             color-scheme: dark;
@@ -23,18 +24,27 @@
             color: var(--text); font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             line-height: 1.7;
         }
-        .page { width: min(100%, 820px); margin: 0 auto; }
+        .page {
+            width: min(100%, 860px); margin: 0 auto; padding: 28px 36px;
+            border: 1px solid rgba(148, 163, 184, 0.18); border-radius: 24px;
+            background: rgba(13, 22, 36, 0.76); box-shadow: 0 28px 80px rgba(0, 0, 0, 0.28);
+            backdrop-filter: blur(18px);
+        }
         header { padding: 30px 0 24px; border-bottom: 1px solid var(--border); }
         .eyebrow { color: var(--green); font-size: 0.82rem; font-weight: 700; text-transform: uppercase; }
         h1 { margin: 8px 0; color: #f0f6fc; font-size: clamp(2rem, 6vw, 3rem); line-height: 1.15; }
         main { padding: 26px 0 42px; }
-        section { padding: 22px 0; border-bottom: 1px solid var(--border); }
+        section { padding: 24px 0; border-bottom: 1px solid var(--border); }
         section:first-child { padding-top: 8px; }
         h2 { margin: 0 0 10px; color: var(--accent); font-size: 1.25rem; }
         p { margin: 0 0 12px; }
         a { color: var(--accent); }
         footer { padding-top: 18px; border-top: 1px solid var(--border); color: var(--muted); font-size: 0.9rem; }
-        @media (max-width: 520px) { body { padding: 18px; } section { padding: 18px 0; } }
+        @media (max-width: 520px) {
+            body { padding: 14px; }
+            .page { padding: 20px 18px; border-radius: 18px; }
+            section { padding: 18px 0; }
+        }
     </style>
 </head>
 <body>

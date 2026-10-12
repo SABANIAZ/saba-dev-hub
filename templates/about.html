@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Learn about Saba Dev's Python Hub and our mission to make practical Python learning clearer.">
     <title>About Us | Saba Dev's Python Hub</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='site.css') }}">
     <style>
         :root {
             color-scheme: dark;
@@ -23,7 +24,12 @@
             color: var(--text); font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             line-height: 1.7;
         }
-        .page { width: min(100%, 760px); margin: 0 auto; }
+        .page {
+            width: min(100%, 800px); margin: 0 auto; padding: 28px 36px;
+            border: 1px solid rgba(148, 163, 184, 0.18); border-radius: 24px;
+            background: rgba(13, 22, 36, 0.76); box-shadow: 0 28px 80px rgba(0, 0, 0, 0.28);
+            backdrop-filter: blur(18px);
+        }
         header { padding: 30px 0 24px; border-bottom: 1px solid var(--border); }
         .eyebrow { color: var(--green); font-size: 0.82rem; font-weight: 700; text-transform: uppercase; }
         h1 { margin: 8px 0; color: #f0f6fc; font-size: clamp(2rem, 6vw, 3rem); line-height: 1.15; }
@@ -31,13 +37,19 @@
         h2 { margin-top: 0; color: var(--accent); font-size: 1.35rem; }
         p { margin: 0 0 18px; }
         .mission {
-            padding: 22px; border: 1px solid var(--border); border-left: 3px solid var(--green);
-            background: color-mix(in srgb, var(--surface) 85%, transparent);
+            padding: 26px; border: 1px solid rgba(126, 231, 135, 0.2);
+            border-left: 3px solid var(--green); border-radius: 14px;
+            background: linear-gradient(135deg, rgba(22, 42, 41, 0.75), rgba(22, 27, 34, 0.8));
+            box-shadow: 0 16px 36px rgba(0, 0, 0, 0.16);
         }
         .back-link { color: var(--accent); text-decoration: none; font-weight: 600; }
         .back-link:hover { text-decoration: underline; }
         footer { padding-top: 18px; border-top: 1px solid var(--border); color: var(--muted); font-size: 0.9rem; }
-        @media (max-width: 520px) { body { padding: 18px; } .mission { padding: 18px; } }
+        @media (max-width: 520px) {
+            body { padding: 14px; }
+            .page { padding: 20px 18px; border-radius: 18px; }
+            .mission { padding: 18px; }
+        }
     </style>
 </head>
 <body>

@@ -164,6 +164,47 @@
         text-decoration: none;
         font-size: 0.9em;
     }
+    .contact-page { max-width: 1040px; }
+    .page-heading {
+        padding: 8px 4px 20px;
+    }
+    .page-heading .eyebrow {
+        display: inline-block;
+        padding: 6px 11px;
+        border: 1px solid rgba(126, 231, 135, 0.2);
+        border-radius: 999px;
+        background: rgba(35, 134, 54, 0.1);
+        letter-spacing: 0.08em;
+    }
+    .contact-card, .info-sidebar {
+        border-color: rgba(148, 163, 184, 0.18);
+        border-radius: 18px;
+        background: rgba(17, 26, 40, 0.84);
+        box-shadow: 0 22px 60px rgba(0, 0, 0, 0.22);
+        backdrop-filter: blur(16px);
+    }
+    .contact-card { padding: clamp(22px, 4vw, 34px); }
+    .contact-card h2 { letter-spacing: -0.03em; }
+    .form-control {
+        min-height: 48px;
+        border-color: rgba(148, 163, 184, 0.22);
+        border-radius: 10px;
+        background: rgba(7, 13, 22, 0.8);
+    }
+    .form-control:focus {
+        border-color: #72c7ff;
+        box-shadow: 0 0 0 3px rgba(114, 199, 255, 0.12);
+    }
+    .submit-btn {
+        min-height: 46px;
+        padding: 12px 22px;
+        border-radius: 10px;
+        background: linear-gradient(135deg, #168f72, #238636);
+    }
+    .info-banner {
+        border-radius: 12px;
+        background: linear-gradient(135deg, rgba(28, 58, 79, 0.88), rgba(31, 26, 55, 0.86));
+    }
     @media (max-width: 768px) {
         .contact-wrapper {
             grid-template-columns: 1fr;

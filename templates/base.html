@@ -4,41 +4,76 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Saba Dev's Python Hub{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='site.css') }}">
     <style>
+        * { box-sizing: border-box; }
+        body {
+            min-height: 100vh;
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.65;
+        }
+        .container {
+            width: min(100% - 40px, 1180px);
+            margin: 0 auto;
+            padding: 34px 0 48px;
+        }
         .site-header {
             display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between;
-            gap: 12px; text-align: left;
+            gap: 24px; margin-bottom: 42px; padding: 24px 28px;
+            border: 1px solid rgba(148, 163, 184, 0.18);
+            border-radius: 22px;
+            background: linear-gradient(135deg, rgba(18, 31, 49, 0.88), rgba(12, 19, 31, 0.72));
+            box-shadow: 0 24px 70px rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(18px);
         }
         .site-brand { flex: 1 1 280px; }
+        .site-brand h1 {
+            margin: 0 0 8px; color: #eaf6ff;
+            font-size: clamp(1.75rem, 4vw, 2.45rem);
+            letter-spacing: -0.045em; line-height: 1.15;
+        }
+        .site-brand p { max-width: 610px; margin: 0; color: #9eafc4; }
         .site-nav {
             display: flex; flex-wrap: wrap; align-items: center; justify-content: flex-end;
-            gap: 12px; flex: 1 1 300px;
+            gap: 9px; flex: 1 1 300px;
         }
         .site-nav a {
             display: inline-flex; align-items: center; justify-content: center;
-            min-height: 40px; padding: 8px 14px; border: 1px solid #334155;
-            border-radius: 6px; color: #a5f3fc; text-decoration: none; white-space: nowrap;
+            min-height: 42px; padding: 9px 14px;
+            border: 1px solid rgba(148, 163, 184, 0.2); border-radius: 12px;
+            background: rgba(15, 27, 43, 0.72); color: #c4eaff;
+            text-decoration: none; white-space: nowrap; font-size: 0.9rem; font-weight: 600;
         }
-        .site-nav a:hover { background: #1e293b; }
+        .site-nav a:hover {
+            background: rgba(37, 89, 120, 0.36);
+            border-color: rgba(114, 199, 255, 0.55);
+            transform: translateY(-1px);
+        }
+        main { min-height: 35vh; }
+        main > section {
+            padding: clamp(24px, 5vw, 42px);
+            border: 1px solid var(--line); border-radius: 22px;
+            background: var(--surface); box-shadow: 0 24px 70px rgba(0, 0, 0, 0.22);
+            backdrop-filter: blur(16px);
+        }
+        main > section h2 { margin: 0 0 12px; color: var(--sky); }
+        main > section p { margin: 0; color: var(--muted-ink); }
         @media (max-width: 640px) {
-            .site-header { justify-content: center; text-align: center; }
+            .container { width: min(100% - 28px, 1180px); padding-top: 16px; }
+            .site-header { justify-content: center; margin-bottom: 26px; padding: 22px 16px; text-align: center; }
             .site-brand, .site-nav { flex-basis: 100%; }
             .site-nav { justify-content: center; }
         }
     </style>
-    
-    <!-- Pinterest Domain Verification Tag -->
     <meta name="p:domain_verify" content="1f51b8df05e417441b7992630b2086d7"/>
-    
-    <!-- Tailwind CSS / Custom Styling links agar hon toh yahan aayenge -->
-    <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-slate-950 text-slate-100 min-h-screen">
-    <div class="container mx-auto px-4 py-8">
-        <header class="site-header mb-10">
+<body>
+    <div class="container">
+        <header class="site-header">
             <div class="site-brand">
-                <h1 class="text-4xl font-bold text-cyan-400 mb-2">Saba Dev's Python Hub</h1>
-                <p class="text-slate-400">Your ultimate lifetime destination for Python Cheat Sheets, Code Snippets, and Developer Resources.</p>
+                <h1>Saba Dev's Python Hub</h1>
+                <p>Your ultimate lifetime destination for Python Cheat Sheets, Code Snippets, and Developer Resources.</p>
             </div>
             <nav class="site-nav" aria-label="Main navigation">
                 <a href="/contact">Contact Us</a>
@@ -48,12 +83,11 @@
             </nav>
         </header>
 
-        <!-- Main Content Area -->
-        <main class="max-w-5xl mx-auto">
+        <main>
             {% block content %}
-            <section class="bg-slate-900 border border-slate-800 rounded-xl p-6 shadow-xl">
-                <h2 class="text-2xl font-semibold mb-4 text-cyan-300">Welcome to My Hub</h2>
-                <p class="text-slate-300">Explore python tutorials, code snippets, and structured guides tailored for developers.</p>
+            <section>
+                <h2>Welcome to My Hub</h2>
+                <p>Explore Python tutorials, code snippets, and structured guides tailored for developers.</p>
             </section>
             {% endblock %}
         </main>

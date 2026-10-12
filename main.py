@@ -405,6 +405,7 @@ def home():
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Saba Dev - Ultimate Python Cheat Sheet & Snippet Hub</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='site.css') }}">
         <style>
             :root {
                 --bg-color: #0d1117;
@@ -555,13 +556,98 @@ def home():
                 pre { color: #111; background: #f4f4f4; white-space: pre-wrap; }
                 .category-badge { background: #ddd; color: #111; }
             }
+            .container { max-width: 1080px; }
+            header {
+                gap: 24px; margin-bottom: 34px; padding: 24px 28px;
+                border: 1px solid rgba(148, 163, 184, 0.18); border-radius: 22px;
+                background: linear-gradient(135deg, rgba(18, 31, 49, 0.9), rgba(12, 19, 31, 0.74));
+                box-shadow: 0 24px 70px rgba(0, 0, 0, 0.22); backdrop-filter: blur(18px);
+            }
+            h1 {
+                margin-top: 0; color: #eaf6ff; font-size: clamp(2rem, 5vw, 3.1rem);
+                letter-spacing: -0.05em; line-height: 1.12;
+            }
+            .tagline { max-width: 600px; line-height: 1.7; }
+            .admin-link {
+                padding: 9px 14px; border-color: rgba(148, 163, 184, 0.2);
+                border-radius: 12px; background: rgba(15, 27, 43, 0.72);
+                color: #c4eaff; font-weight: 600;
+            }
+            .admin-link:hover { background: rgba(37, 89, 120, 0.36); border-color: rgba(114, 199, 255, 0.55); }
+            .home-hero {
+                position: relative; overflow: hidden; margin: 0 0 28px; padding: clamp(26px, 5vw, 48px);
+                border: 1px solid rgba(114, 199, 255, 0.22); border-radius: 24px;
+                background: linear-gradient(120deg, rgba(21, 49, 69, 0.9), rgba(29, 28, 57, 0.78));
+                box-shadow: 0 28px 80px rgba(0, 0, 0, 0.24); backdrop-filter: blur(18px);
+            }
+            .home-hero::after {
+                position: absolute; top: -100px; right: -70px; width: 300px; height: 300px;
+                border: 1px solid rgba(150, 219, 255, 0.12); border-radius: 50%;
+                box-shadow: 0 0 0 35px rgba(150, 219, 255, 0.025), 0 0 0 70px rgba(150, 219, 255, 0.02);
+                content: ""; pointer-events: none;
+            }
+            .hero-eyebrow {
+                margin: 0 0 10px; color: #8cebd0; font-size: 0.78rem;
+                font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase;
+            }
+            .home-hero h2 {
+                max-width: 660px; margin: 0 0 12px; color: #f2f8ff;
+                font-size: clamp(1.7rem, 4vw, 2.5rem); letter-spacing: -0.04em; line-height: 1.2;
+            }
+            .home-hero > p:last-of-type { max-width: 650px; margin: 0; color: #bdcde0; }
+            .hero-stats { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 24px; }
+            .hero-stats span {
+                padding: 7px 12px; border: 1px solid rgba(180, 219, 244, 0.16);
+                border-radius: 999px; background: rgba(8, 17, 29, 0.32); color: #d9efff;
+                font-size: 0.83rem;
+            }
+            .controls-container {
+                padding: 20px; border: 1px solid var(--border-color); border-radius: 18px;
+                background: rgba(14, 23, 36, 0.8); box-shadow: 0 18px 44px rgba(0, 0, 0, 0.18);
+                backdrop-filter: blur(14px);
+            }
+            #searchInput {
+                max-width: 680px; min-height: 50px; border-radius: 13px;
+                background: rgba(6, 12, 21, 0.86);
+            }
+            .filter-btn, .tool-btn, .copy-btn, .save-btn, .download-btn {
+                border-radius: 10px; transition: transform 160ms ease, border-color 160ms ease, background-color 160ms ease;
+            }
+            .filter-btn:hover, .tool-btn:hover, .copy-btn:hover, .download-btn:hover { transform: translateY(-1px); }
+            .filter-btn { padding: 8px 14px; }
+            .filter-btn.active { box-shadow: 0 6px 22px rgba(88, 166, 255, 0.2); }
+            .card, .quiz-panel {
+                border-color: rgba(148, 163, 184, 0.18); border-radius: 18px;
+                background: rgba(17, 26, 40, 0.86); box-shadow: 0 18px 48px rgba(0, 0, 0, 0.2);
+                backdrop-filter: blur(14px);
+            }
+            .card { padding: clamp(18px, 3vw, 28px); }
+            .card h2 { margin-bottom: 8px; letter-spacing: -0.025em; }
+            .card > p { color: #aab9cb; line-height: 1.65; }
+            .category-badge { display: inline-flex; padding: 5px 11px; border-radius: 999px; font-size: 0.75em; letter-spacing: 0.04em; }
+            .code-header { min-height: 46px; border-radius: 11px 11px 0 0; }
+            .code-header + pre { padding: 18px; border-radius: 0 0 11px 11px; line-height: 1.65; }
+            .pro-section-title { color: #d5b8ff; letter-spacing: -0.035em; }
+            .pro-card {
+                padding: 24px; border-color: rgba(188, 140, 255, 0.24); border-radius: 18px;
+                background: linear-gradient(145deg, rgba(30, 28, 49, 0.92), rgba(17, 26, 40, 0.9));
+                box-shadow: 0 18px 48px rgba(0, 0, 0, 0.2);
+            }
+            .site-footer { border-color: rgba(148, 163, 184, 0.16); }
+            .site-footer a { padding: 6px 10px; border-radius: 8px; }
+            .site-footer a:hover { background: rgba(114, 199, 255, 0.08); }
+            @media (max-width: 620px) {
+                body { padding: 16px; }
+                header { padding: 20px 16px; }
+                .controls-container { padding: 14px; }
+            }
         </style>
     </head>
     <body>
         <div class="container">
             <header>
                 <div class="brand">
-                    <h1>🐍 Saba Dev's Python Hub</h1>
+                    <h1>Saba Dev's Python Hub</h1>
                     <p class="tagline">Your ultimate lifetime destination for Python Cheat Sheets, Code Snippets, and Developer Resources.</p>
                 </div>
                 <nav class="header-nav" aria-label="Main navigation">
@@ -571,6 +657,17 @@ def home():
                     <a href="/admin" class="admin-link">⚙️ Admin Panel</a>
                 </nav>
             </header>
+
+            <section class="home-hero" aria-labelledby="homeHeroTitle">
+                <p class="hero-eyebrow">A practical Python reference</p>
+                <h2 id="homeHeroTitle">Less searching. More building.</h2>
+                <p>Find clear, copy-ready examples for everyday Python, then save the snippets you want to revisit.</p>
+                <div class="hero-stats" aria-label="Hub contents">
+                    <span>{{ sheets | length }} practical snippets</span>
+                    <span>{{ categories | length }} topics to explore</span>
+                    <span>Free learning tools</span>
+                </div>
+            </section>
 
             <div class="controls-container">
                 <input type="search" id="searchInput" placeholder="Search topics, examples, or code..." aria-label="Search Python topics and code" oninput="filterSnippets()">
@@ -900,10 +997,12 @@ def login():
     <html lang="en">
     <head>
         <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Saba Dev - Admin Login</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='site.css') }}">
         <style>
-            body { font-family: 'Segoe UI', sans-serif; background-color: #0d1117; color: #c9d1d9; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
-            .login-card { background: #161b22; padding: 30px; border: 1px solid #30363d; border-radius: 10px; width: 350px; box-shadow: 0 4px 12px rgba(0,0,0,0.5); }
+            body { font-family: 'Segoe UI', sans-serif; background-color: #0d1117; color: #c9d1d9; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; padding: 20px; }
+            .login-card { background: rgba(17, 26, 40, 0.88); padding: 32px; border: 1px solid rgba(148, 163, 184, 0.2); border-radius: 20px; width: min(100%, 390px); box-shadow: 0 28px 80px rgba(0,0,0,0.35); backdrop-filter: blur(18px); }
             h2 { color: #58a6ff; margin-top: 0; text-align: center; }
             .form-group { margin-bottom: 15px; }
             label { display: block; margin-bottom: 5px; font-weight: bold; }
@@ -986,10 +1085,12 @@ def admin():
     <html lang="en">
     <head>
         <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Saba Dev - Admin Dashboard</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='site.css') }}">
         <style>
-            body { font-family: 'Segoe UI', sans-serif; background-color: #0d1117; color: #c9d1d9; padding: 40px; }
-            .container { max-width: 850px; margin: 0 auto; background: #161b22; padding: 30px; border: 1px solid #30363d; border-radius: 10px; }
+            body { font-family: 'Segoe UI', sans-serif; background-color: #0d1117; color: #c9d1d9; padding: clamp(16px, 4vw, 40px); }
+            .container { width: min(100%, 1000px); margin: 0 auto; background: rgba(17, 26, 40, 0.88); padding: clamp(20px, 4vw, 36px); border: 1px solid rgba(148, 163, 184, 0.2); border-radius: 20px; box-shadow: 0 28px 80px rgba(0,0,0,0.3); backdrop-filter: blur(18px); }
             h2, h3 { color: #58a6ff; }
             .top-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
             .form-group { margin-bottom: 15px; }
@@ -1007,9 +1108,16 @@ def admin():
             .back-link { color: #58a6ff; text-decoration: none; }
             .msg { color: #7ee787; margin-bottom: 15px; font-weight: bold; }
             table { width: 100%; border-collapse: collapse; margin-top: 15px; }
-            th, td { border: 1px solid #30363d; padding: 10px; text-align: left; font-size: 0.9em; }
+            th, td { border: 1px solid #30363d; padding: 12px; text-align: left; font-size: 0.9em; }
             th { background: #21262d; color: #f0f6fc; }
             hr { border: 0; border-top: 1px solid #30363d; margin: 25px 0; }
+            input, textarea { min-height: 44px; border-radius: 10px; }
+            textarea { min-height: 100px; }
+            .btn, .delete-btn, .edit-btn, .logout-btn { border-radius: 9px; }
+            @media (max-width: 640px) {
+                .top-bar { gap: 12px; }
+                table { display: block; overflow-x: auto; white-space: nowrap; }
+            }
         </style>
     </head>
     <body>
@@ -1119,14 +1227,16 @@ def edit_snippet(id):
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Saba Dev - Edit Snippet</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='site.css') }}">
         <style>
-            body { font-family: 'Segoe UI', sans-serif; background-color: #0d1117; color: #c9d1d9; padding: 40px; }
-            .container { max-width: 600px; margin: 0 auto; background: #161b22; padding: 30px; border: 1px solid #30363d; border-radius: 10px; }
+            body { font-family: 'Segoe UI', sans-serif; background-color: #0d1117; color: #c9d1d9; padding: clamp(16px, 4vw, 40px); }
+            .container { width: min(100%, 640px); margin: 0 auto; background: rgba(17, 26, 40, 0.88); padding: clamp(20px, 4vw, 36px); border: 1px solid rgba(148, 163, 184, 0.2); border-radius: 20px; box-shadow: 0 28px 80px rgba(0,0,0,0.3); backdrop-filter: blur(18px); }
             h2 { color: #58a6ff; margin-top: 0; }
             .form-group { margin-bottom: 15px; }
             label { display: block; margin-bottom: 6px; font-weight: bold; color: #f0f6fc; }
             input, textarea { width: 100%; padding: 10px; background: #010409; border: 1px solid #30363d; border-radius: 6px; color: white; font-size: 1em; box-sizing: border-box; }
-            textarea { height: 120px; font-family: monospace; }
+            input { min-height: 44px; }
+            textarea { min-height: 150px; font-family: monospace; }
             .btn { background: #1f6feb; color: white; border: none; padding: 10px 20px; border-radius: 6px; font-weight: bold; cursor: pointer; }
             .btn:hover { background: #388bfd; }
             .back-link { display: inline-block; margin-bottom: 20px; color: #58a6ff; text-decoration: none; }
