@@ -1,73 +1,53 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Learn about Saba Dev's Python Hub and our mission to make practical Python learning clearer.">
-    <title>About Us | Saba Dev's Python Hub</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='site.css') }}">
-    <style>
-        :root {
-            color-scheme: dark;
-            --bg: #0d1117;
-            --surface: #161b22;
-            --border: #30363d;
-            --text: #c9d1d9;
-            --muted: #8b949e;
-            --accent: #58a6ff;
-            --green: #7ee787;
-        }
-        * { box-sizing: border-box; }
-        body {
-            min-height: 100vh; margin: 0; padding: 32px 20px;
-            background: radial-gradient(ellipse at top, #142337 0, var(--bg) 48%);
-            color: var(--text); font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            line-height: 1.7;
-        }
-        .page {
-            width: min(100%, 800px); margin: 0 auto; padding: 28px 36px;
-            border: 1px solid rgba(148, 163, 184, 0.18); border-radius: 24px;
-            background: rgba(13, 22, 36, 0.76); box-shadow: 0 28px 80px rgba(0, 0, 0, 0.28);
-            backdrop-filter: blur(18px);
-        }
-        header { padding: 30px 0 24px; border-bottom: 1px solid var(--border); }
-        .eyebrow { color: var(--green); font-size: 0.82rem; font-weight: 700; text-transform: uppercase; }
-        h1 { margin: 8px 0; color: #f0f6fc; font-size: clamp(2rem, 6vw, 3rem); line-height: 1.15; }
-        main { padding: 30px 0 42px; }
-        h2 { margin-top: 0; color: var(--accent); font-size: 1.35rem; }
-        p { margin: 0 0 18px; }
-        .mission {
-            padding: 26px; border: 1px solid rgba(126, 231, 135, 0.2);
-            border-left: 3px solid var(--green); border-radius: 14px;
-            background: linear-gradient(135deg, rgba(22, 42, 41, 0.75), rgba(22, 27, 34, 0.8));
-            box-shadow: 0 16px 36px rgba(0, 0, 0, 0.16);
-        }
-        .back-link { color: var(--accent); text-decoration: none; font-weight: 600; }
-        .back-link:hover { text-decoration: underline; }
-        footer { padding-top: 18px; border-top: 1px solid var(--border); color: var(--muted); font-size: 0.9rem; }
-        @media (max-width: 520px) {
-            body { padding: 14px; }
-            .page { padding: 20px 18px; border-radius: 18px; }
-            .mission { padding: 18px; }
-        }
-    </style>
-</head>
-<body>
-    <div class="page">
-        <header>
-            <div class="eyebrow">About the project</div>
-            <h1>About Saba Dev's Python Hub</h1>
-        </header>
-        <main>
-            <section class="mission">
-                <h2>Our mission</h2>
-                <p>Saba Dev's Python Hub helps developers learn and build with Python through practical, approachable resources.</p>
-                <p>Our mission is to provide clean, copy-paste-ready Python code snippets and clear tutorials that make everyday programming concepts easier to understand and use. Whether you are getting started or looking for a quick reference, we aim to make useful knowledge easier to find.</p>
-            </section>
-            <p>Explore the hub for Python examples, tutorials, and developer resources designed to support your next project.</p>
-            <a class="back-link" href="/">&larr; Back to home</a>
-        </main>
-        <footer>Saba Dev's Python Hub</footer>
-    </div>
-</body>
-</html>
+{% extends "base.html" %}
+{% block title %}About Us | Saba Dev's Python Hub{% endblock %}
+{% block content %}
+<style>
+    .about-page { max-width: 900px; margin: 0 auto; padding: 12px 0 30px; color: #c9d1d9; }
+    .about-heading { margin-bottom: 28px; }
+    .about-heading .eyebrow { margin: 0 0 8px; color: #7ee787; font-size: 0.82rem; font-weight: 700; text-transform: uppercase; }
+    .about-heading h2 { margin: 0 0 10px; color: #f0f6fc; font-size: clamp(2rem, 5vw, 2.8rem); letter-spacing: -0.04em; }
+    .about-heading p { max-width: 700px; margin: 0; color: #9eafc4; }
+    .about-section { margin-top: 24px; padding: clamp(22px, 4vw, 34px); border: 1px solid rgba(148, 163, 184, 0.18); border-radius: 18px; background: rgba(17, 26, 40, 0.78); }
+    .about-section h3 { margin: 0 0 12px; color: #58a6ff; font-size: 1.3rem; }
+    .about-section p { margin: 0 0 14px; color: #b4c0ce; }
+    .about-section p:last-child { margin-bottom: 0; }
+    .skills-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(145px, 1fr)); gap: 12px; margin-top: 20px; }
+    .skill-item { padding: 14px 16px; border: 1px solid rgba(88, 166, 255, 0.2); border-radius: 12px; background: rgba(11, 18, 29, 0.72); color: #dce8f5; font-weight: 600; text-align: center; }
+    .about-cta { display: inline-flex; align-items: center; justify-content: center; min-height: 46px; margin-top: 10px; padding: 11px 18px; border: 1px solid #238636; border-radius: 10px; background: #238636; color: #fff; font-weight: 700; text-decoration: none; }
+    .about-cta:hover { background: #2ea043; border-color: #2ea043; }
+    @media (max-width: 640px) { .about-page { padding-top: 4px; } }
+</style>
+
+<div class="about-page">
+    <header class="about-heading">
+        <p class="eyebrow">Independent Python Full-Stack Web Developer</p>
+        <h2>About Saba Dev's Python Hub</h2>
+        <p>I build practical web experiences and learning resources that make Python easier to explore, understand, and use.</p>
+    </header>
+
+    <section class="about-section">
+        <h3>Why this hub exists</h3>
+        <p>Saba Dev's Python Hub is designed to be a free, fast, and interactive place for Python learners and developers. The goal is to make useful knowledge easy to find, so you can spend less time searching and more time learning and building.</p>
+        <p>Explore curated cheat sheets, copy-ready code snippets, and developer resources for quick reference—whether you're learning a concept or looking for a starting point for your next project.</p>
+    </section>
+
+    <section class="about-section" aria-labelledby="skills-heading">
+        <h3 id="skills-heading">Skills</h3>
+        <div class="skills-grid">
+            <div class="skill-item">Python</div>
+            <div class="skill-item">Flask</div>
+            <div class="skill-item">SQLite</div>
+            <div class="skill-item">HTML5</div>
+            <div class="skill-item">CSS3</div>
+            <div class="skill-item">JavaScript</div>
+            <div class="skill-item">Git &amp; GitHub</div>
+        </div>
+    </section>
+
+    <section class="about-section">
+        <h3>Get in touch</h3>
+        <p>Have feedback, a question, or an idea for a resource? I’d love to hear from you.</p>
+        <a class="about-cta" href="{{ url_for('contact') }}">Contact Us</a>
+    </section>
+</div>
+{% endblock %}

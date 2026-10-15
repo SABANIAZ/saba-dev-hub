@@ -123,6 +123,14 @@
         border-radius: 5px;
         margin-bottom: 20px;
     }
+    .form-error {
+        background: rgba(248, 81, 73, 0.12);
+        color: #ffb4ad;
+        border: 1px solid #f85149;
+        padding: 12px;
+        border-radius: 5px;
+        margin-bottom: 20px;
+    }
     .info-sidebar {
         background: #161b22;
         border: 1px solid #30363d;
@@ -242,29 +250,31 @@
     <!-- Left Form Section -->
     <div class="contact-card">
         <h2>Send us a message</h2>
-        {% if msg_sent %}
-            <p class="form-success" role="status" aria-live="polite">Thank you! Your message has been submitted.</p>
-        {% endif %}
-        <form method="POST" action="/contact">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% for category, message in messages %}
+                <p class="form-{{ category }}" role="status" aria-live="polite">{{ message }}</p>
+            {% endfor %}
+        {% endwith %}
+        <form method="POST" action="{{ url_for('contact') }}">
             <div class="form-grid">
                 <div class="form-group">
                     <label for="contact-name">Your Name <span>*</span></label>
-                    <input id="contact-name" type="text" name="name" class="form-control" placeholder="Name" autocomplete="name" required>
+                    <input id="contact-name" type="text" name="name" class="form-control" placeholder="Name" autocomplete="name" maxlength="120" value="{{ form_data.get('name', '') }}" required>
                 </div>
                 <div class="form-group">
                     <label for="contact-email">Your Email <span>*</span></label>
-                    <input id="contact-email" type="email" name="email" class="form-control" placeholder="you@example.com" autocomplete="email" required>
+                    <input id="contact-email" type="email" name="email" class="form-control" placeholder="you@example.com" autocomplete="email" maxlength="254" value="{{ form_data.get('email', '') }}" required>
                 </div>
             </div>
             <div class="form-group full-width">
                 <label for="contact-subject">Subject <span>*</span></label>
-                <input id="contact-subject" type="text" name="subject" class="form-control" placeholder="What can we help with?" required>
+                <input id="contact-subject" type="text" name="subject" class="form-control" placeholder="What can we help with?" maxlength="200" value="{{ form_data.get('subject', contact_subject) }}" required>
             </div>
             <div class="form-group full-width">
                 <label for="contact-message">Your Message <span>*</span></label>
-                <textarea id="contact-message" name="message" class="form-control" placeholder="Write your message..." required></textarea>
+                <textarea id="contact-message" name="message" class="form-control" placeholder="Write your message..." maxlength="5000" required>{{ form_data.get('message', '') }}</textarea>
             </div>
-            <p class="privacy-note">Your email is included so we can respond to your inquiry.</p>
+            <p class="privacy-note">Your message and email address are stored in the site's database for review.</p>
             <button type="submit" class="submit-btn">Send Message</button>
         </form>
     </div>
