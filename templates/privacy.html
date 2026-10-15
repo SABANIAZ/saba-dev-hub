@@ -2,7 +2,9 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="description" content="Privacy Policy for Saba Dev's Python Hub, including cookies and third-party advertising.">
     <title>Privacy Policy | Saba Dev's Python Hub</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='site.css') }}">
@@ -19,10 +21,15 @@
         }
         * { box-sizing: border-box; }
         body {
-            min-height: 100vh; margin: 0; padding: 32px 20px;
+            min-height: 100vh; min-height: 100svh; margin: 0;
+            padding: calc(32px + env(safe-area-inset-top, 0px))
+                max(20px, env(safe-area-inset-right, 0px))
+                calc(32px + env(safe-area-inset-bottom, 0px))
+                max(20px, env(safe-area-inset-left, 0px));
             background: radial-gradient(ellipse at top, #142337 0, var(--bg) 48%);
             color: var(--text); font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             line-height: 1.7;
+            -webkit-overflow-scrolling: touch;
         }
         .page {
             width: min(100%, 860px); margin: 0 auto; padding: 28px 36px;
@@ -41,7 +48,12 @@
         a { color: var(--accent); }
         footer { padding-top: 18px; border-top: 1px solid var(--border); color: var(--muted); font-size: 0.9rem; }
         @media (max-width: 520px) {
-            body { padding: 14px; }
+            body {
+                padding: calc(14px + env(safe-area-inset-top, 0px))
+                    max(14px, env(safe-area-inset-right, 0px))
+                    calc(14px + env(safe-area-inset-bottom, 0px))
+                    max(14px, env(safe-area-inset-left, 0px));
+            }
             .page { padding: 20px 18px; border-radius: 18px; }
             section { padding: 18px 0; }
         }

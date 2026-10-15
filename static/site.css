@@ -12,6 +12,7 @@
 
 html {
     scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
 }
 
 *,
@@ -25,6 +26,7 @@ body {
     isolation: isolate;
     background-color: var(--page-bg);
     color: var(--ink);
+    -webkit-overflow-scrolling: touch;
 }
 
 body::before,
